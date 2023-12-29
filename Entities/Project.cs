@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Project
+public class Project
     {
         [Key]
         public int ProjectID { get; set; }
@@ -11,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
         [MaxLength(200)]
         public string? ProjectName { get; set; }
 
+        [Required]
         [MaxLength(500)]
         public string? ProjectDescription { get; set; }
 
@@ -19,11 +21,14 @@ using System.ComponentModel.DataAnnotations;
 
         public DateTime? EndDate { get; set; }
 
+        [Required]
         public decimal? Budget { get; set; }
 
         [MaxLength(100)]
         public string? Status { get; set; }
 
+        [Required]
+        [ForeignKey("Employee")]
         public int? ManagerEmployeeID { get; set; }
 
         public virtual ICollection<ProjectDetail> ProjectDetails { get; set; }

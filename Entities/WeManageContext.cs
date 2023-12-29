@@ -48,11 +48,5 @@ public class WeManageContext : DbContext
         // Configure composite key for EmployeeSchedule
         modelBuilder.Entity<EmployeeSchedule>()
             .HasKey(es => new { es.EmployeeID, es.Date });
-        // Configure composite key for EmployeeSchedule
-        modelBuilder.Entity<ProjectDetail>()
-            .HasKey(pd => new { pd.EmployeeID, pd.ProjectID });
-            // Configure composite key for EmployeeSchedule
-        modelBuilder.Entity<Rating>()
-            .HasKey(r => new { r.EmployeeID, r.Date });
     }
 }

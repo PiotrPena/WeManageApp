@@ -9,11 +9,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
         [ForeignKey("Recruit")]
         public int RecruitID { get; set; }
-
+        [Required]
         public string? PositionName { get; set; }
-
+        [Required]
         public DateTime ApplicationDate { get; set; }
-
+        [Required]
         public string? Status { get; set; }
 
         public DateTime InterviewDate { get; set; }

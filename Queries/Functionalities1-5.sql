@@ -42,28 +42,6 @@ CREATE TABLE Positions (
     FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
 );
 
-CREATE TRIGGER trg_CheckPositionOverlap
-ON Positions
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @overlapExists INT;
-
-    SELECT @overlapExists = COUNT(*)
-    FROM Positions p
-    INNER JOIN inserted i ON p.EmployeeID = i.EmployeeID
-    WHERE (p.StartDate < i.EndDate OR i.EndDate IS NULL)
-    AND (i.StartDate < p.EndDate OR p.EndDate IS NULL)
-    AND p.PositionID != i.PositionID;
-
-    IF (@overlapExists > 0)
-    BEGIN
-        RAISERROR ('An overlapping position period was detected for the same employee.', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-END;
 
 INSERT INTO Positions (EmployeeID, PositionName, StartDate, EndDate)
 VALUES 
@@ -117,28 +95,6 @@ CREATE TABLE Salaries (
     FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
 );
 
-CREATE TRIGGER trg_CheckSalaryOverlap
-ON Salaries
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @overlapExists INT;
-
-    SELECT @overlapExists = COUNT(*)
-    FROM Salaries s
-    INNER JOIN inserted i ON s.EmployeeID = i.EmployeeID
-    WHERE (s.StartDate < i.EndDate OR i.EndDate IS NULL)
-    AND (i.StartDate < s.EndDate OR s.EndDate IS NULL)
-    AND s.SalaryID != i.SalaryID;
-
-    IF (@overlapExists > 0)
-    BEGIN
-        RAISERROR ('An overlapping salary period was detected for the same employee.', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-END;
 
 INSERT INTO Salaries (EmployeeID, Salary, StartDate, EndDate)
 VALUES
@@ -183,13 +139,14 @@ VALUES
 (12, 7000, '2019-09-01', NULL);
 
 CREATE TABLE EmployeeSchedules (
+    EmployeeScheduleID INT IDENTITY(1,1) PRIMARY KEY,
     EmployeeID INT NOT NULL,
     Date DATE NOT NULL,
     StartHour TIME NOT NULL,
     EndHour TIME NOT NULL,
-    PRIMARY KEY (EmployeeID, Date),
     FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
 );
+
 
 INSERT INTO EmployeeSchedules (EmployeeID, Date, StartHour, EndHour) VALUES
 -- Week for Employee 1
@@ -267,3 +224,5 @@ INSERT INTO EmployeeSchedules (EmployeeID, Date, StartHour, EndHour) VALUES
 (12, '2024-01-10', '11:00', '19:00'),
 (12, '2024-01-11', '11:00', '19:00');
 
+
+Select * from EmployeeSchedules

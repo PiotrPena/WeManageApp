@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
         [ForeignKey("Employee")]
         public int EmployeeID { get; set; }
 
+        [Required]
         public DateTime Date { get; set; }
 
         public int? PerformanceRating { get; set; }

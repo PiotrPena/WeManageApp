@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
     public class Profile
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProfileID { get; set; }
 
         [Required]

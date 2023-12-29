@@ -6,8 +6,82 @@ public class Reader{
         Context = context;
     }
 
-    public void Process(){
+    public void Process()
+    {
+        bool continueUsingReader = true;
 
+        while (continueUsingReader)
+        {
+            Console.WriteLine("Select an option to proceed:");
+            Console.WriteLine("1. Read Employees");
+            Console.WriteLine("2. Read Employee Developments");
+            Console.WriteLine("3. Read Employee Schedule");
+            Console.WriteLine("4. Read Incidents");
+            Console.WriteLine("5. Read Leaves");
+            Console.WriteLine("6. Read Profiles");
+            Console.WriteLine("7. Read Performance Ratings");
+            Console.WriteLine("8. Read Upcoming Events");
+            Console.WriteLine("9. Read Employee History");
+            Console.WriteLine("10. Read Projects");
+            Console.WriteLine("11. Read Recruitments");
+            Console.WriteLine("12. Read Notifications");
+            Console.WriteLine("0. Exit");
+
+            int choice = Convert.ToInt32(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    ReadEmployees();
+                    break;
+                case 2:
+                    ReadEmployeeDevelopments();
+                    break;
+                case 3:
+                    ReadEmployeeSchedules();
+                    break;
+                case 4:
+                    ReadIncidents();
+                    break;
+                case 5:
+                    ReadLeaves();
+                    break;
+                case 6:
+                    ReadProfiles();
+                    break;
+                case 7:
+                    ReadRatings();
+                    break;
+                case 8:
+                    ReadSchedules();
+                    break;
+                case 9:
+                    ReadHistory();
+                    break;
+                case 10:
+                    ReadProjects();
+                    break;
+                case 11:
+                    ReadRecruitments();
+                    break;
+                case 12:
+                    ReadNotifications();
+                    break;
+                case 0:
+                    continueUsingReader = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice, please try again.");
+                    break;
+            }
+
+            if (continueUsingReader)
+            {
+                Console.WriteLine("Do you want to continue? (yes/no)");
+                string? answer = Console.ReadLine()?.ToLower();
+                continueUsingReader = answer == "yes";
+            }
+        }
     }
 
     public void ReadEmployees()
@@ -353,6 +427,137 @@ public class Reader{
             Console.WriteLine($"Timestamp: {notification.Timestamp}");
             Console.WriteLine($"Content: {notification.NotificationContent}");
             Console.WriteLine(new string('-', 40)); // Separator line
+        }
+    }
+
+
+
+    public void ReadPositions()
+    {
+        var positions = Context.Positions.Include(p => p.Employee).ToList();
+
+        if (positions.Any())
+        {
+            Console.WriteLine("Position Details:");
+            foreach (var position in positions)
+            {
+                Console.WriteLine($"Position ID: {position.PositionID}");
+                Console.WriteLine($"Employee ID: {position.EmployeeID}");
+                if (position.Employee != null)
+                {
+                    Console.WriteLine($"Employee Name: {position.Employee.FirstName} {position.Employee.LastName}");
+                }
+                Console.WriteLine($"Position Name: {position.PositionName}");
+                Console.WriteLine($"Start Date: {position.StartDate.ToString("yyyy-MM-dd")}");
+                Console.WriteLine($"End Date: {(position.EndDate.HasValue ? position.EndDate.Value.ToString("yyyy-MM-dd") : "N/A")}");
+                Console.WriteLine(new string('-', 40)); // Separator line for each position
+            }
+        }
+        else
+        {
+            Console.WriteLine("No positions found.");
+        }
+    }
+
+    public void ReadSalaries()
+    {
+        var salaries = Context.Salaries.Include(s => s.Employee).ToList();
+
+        if (salaries.Any())
+        {
+            Console.WriteLine("Salary Details:");
+            foreach (var salary in salaries)
+            {
+                Console.WriteLine($"Salary ID: {salary.SalaryID}");
+                Console.WriteLine($"Employee ID: {salary.EmployeeID}");
+                if (salary.Employee != null)
+                {
+                    Console.WriteLine($"Employee Name: {salary.Employee.FirstName} {salary.Employee.LastName}");
+                }
+                Console.WriteLine($"Monthly Salary: {salary.MonthlySalary:C}");
+                Console.WriteLine($"Start Date: {salary.StartDate.ToString("yyyy-MM-dd")}");
+                Console.WriteLine($"End Date: {(salary.EndDate.HasValue ? salary.EndDate.Value.ToString("yyyy-MM-dd") : "N/A")}");
+                Console.WriteLine(new string('-', 40)); // Separator line for each salary record
+            }
+        }
+        else
+        {
+            Console.WriteLine("No salary records found.");
+        }
+    }
+
+    public void ReadProjectsSimple()
+    {
+        var projects = Context.Projects.ToList();
+
+        if (projects.Any())
+        {
+            Console.WriteLine("Project Details:");
+            foreach (var project in projects)
+            {
+                Console.WriteLine($"Project ID: {project.ProjectID}");
+                Console.WriteLine($"Project Name: {project.ProjectName}");
+                Console.WriteLine($"Description: {project.ProjectDescription}");
+                Console.WriteLine($"Start Date: {project.StartDate.ToString("yyyy-MM-dd")}");
+                Console.WriteLine($"End Date: {(project.EndDate.HasValue ? project.EndDate.Value.ToString("yyyy-MM-dd") : "N/A")}");
+                Console.WriteLine($"Budget: {(project.Budget.HasValue ? project.Budget.Value.ToString("C") : "N/A")}");
+                Console.WriteLine($"Status: {project.Status ?? "N/A"}");
+                Console.WriteLine($"Manager Employee ID: {(project.ManagerEmployeeID.HasValue ? project.ManagerEmployeeID.ToString() : "N/A")}");
+                Console.WriteLine(new string('-', 40)); // Separator line for each project
+            }
+        }
+        else
+        {
+            Console.WriteLine("No projects found.");
+        }
+    }
+
+    public void ReadProjectDetails()
+    {
+        var projectDetails = Context.ProjectDetails.ToList();
+
+        if (projectDetails.Any())
+        {
+            Console.WriteLine("Project Detail Information:");
+            foreach (var detail in projectDetails)
+            {
+                Console.WriteLine($"Project Detail ID: {detail.ProjectDetailID}");
+                Console.WriteLine($"Employee ID: {detail.EmployeeID}");
+                Console.WriteLine($"Project ID: {detail.ProjectID}");
+                Console.WriteLine($"Role: {detail.Role}");
+                Console.WriteLine($"Join Date: {detail.JoinDate.ToString("yyyy-MM-dd")}");
+                Console.WriteLine($"Leave Date: {(detail.LeaveDate != DateTime.MinValue ? detail.LeaveDate.ToString("yyyy-MM-dd") : "N/A")}");
+                Console.WriteLine($"Additional Info: {detail.AdditionalInfo ?? "N/A"}");
+                Console.WriteLine(new string('-', 40)); // Separator line for each project detail
+            }
+        }
+        else
+        {
+            Console.WriteLine("No project details found.");
+        }
+    }
+
+    public void ReadRecruits()
+    {
+        var recruits = Context.Recruits.ToList();
+
+        if (recruits.Any())
+        {
+            Console.WriteLine("Recruit Information:");
+            foreach (var recruit in recruits)
+            {
+                Console.WriteLine($"Recruit ID: {recruit.RecruitID}");
+                Console.WriteLine($"Name: {recruit.FirstName} {recruit.LastName}");
+                Console.WriteLine($"Date of Birth: {recruit.DateOfBirth.ToString("yyyy-MM-dd")}");
+                Console.WriteLine($"Email: {recruit.Email}");
+                Console.WriteLine($"Gender: {recruit.Gender}");
+                Console.WriteLine($"Address: {recruit.Address}");
+                Console.WriteLine(new string('-', 40)); // Separator line for each recruit
+            }
+        }
+        else
+        {
+            Console.WriteLine("No recruits found.");
         }
     }
 

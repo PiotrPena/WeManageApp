@@ -68,3 +68,4 @@ C:\Users\piotr\Desktop\Studia\IVROK\ZWPiA\Projekt\WeManageApp\obj\Debug\net8.0\W
 C:\Users\piotr\Desktop\Studia\IVROK\ZWPiA\Projekt\WeManageApp\obj\Debug\net8.0\WeManageApp.genruntimeconfig.cache
 C:\Users\piotr\Desktop\Studia\IVROK\ZWPiA\Projekt\WeManageApp\obj\Debug\net8.0\ref\WeManageApp.dll
 C:\Users\piotr\Desktop\Studia\IVROK\ZWPiA\Projekt\WeManageApp\bin\Debug\net8.0\appsettings.json
+C:\Users\piotr\Desktop\Studia\IVROK\ZWPiA\Projekt\WeManageApp\obj\Debug\net8.0\WeManageApp.sourcelink.json

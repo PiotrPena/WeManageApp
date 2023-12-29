@@ -13,33 +13,6 @@ CREATE TABLE Leaves (
     FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
 );
 
-CREATE TRIGGER trg_CheckLeaveOverlap 
-ON Leaves
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @overlapExists BIT;
-    SET @overlapExists = 0;
-
-    -- Check for overlap in new or updated records
-    SELECT @overlapExists = 1
-    FROM inserted i
-    INNER JOIN Leaves l ON i.EmployeeID = l.EmployeeID
-    WHERE (i.StartDate BETWEEN l.StartDate AND l.EndDate 
-           OR i.EndDate BETWEEN l.StartDate AND l.EndDate
-           OR l.StartDate BETWEEN i.StartDate AND i.EndDate 
-           OR l.EndDate BETWEEN i.StartDate AND i.EndDate)
-    AND NOT (i.StartDate = l.StartDate AND i.EndDate = l.EndDate); -- Excludes the same record
-
-    IF @overlapExists = 1
-    BEGIN
-        RAISERROR ('An employee cannot be on two different leaves at the same time.', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-END;
-
 INSERT INTO Leaves (EmployeeID, StartDate, EndDate, TypeOfLeave) VALUES
 (1, '2024-02-01', '2024-02-10', 'Annual'),
 (2, '2024-03-15', '2024-03-20', 'Sick'),
@@ -68,9 +41,10 @@ CREATE TABLE Recruits (
     LastName NVARCHAR(50),
     Email NVARCHAR(100),
     DateOfBirth DATE,
-    Gender CHAR(1),
+    Gender NVARCHAR(10),
     Address NVARCHAR(255)
 );
+
 
 CREATE TABLE Recruitments (
     RecruitmentID INT IDENTITY(1,1) PRIMARY KEY,
@@ -83,43 +57,13 @@ CREATE TABLE Recruitments (
     FOREIGN KEY (RecruitID) REFERENCES Recruits(RecruitID)
 );
 
-CREATE TRIGGER trg_Recruitments_SingleActiveRecruitment
-ON Recruitments
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @RecruitID INT;
-    DECLARE @Status NVARCHAR(50);
-    DECLARE @RecruitmentID INT;
-
-    SELECT @RecruitID = i.RecruitID, @Status = i.Status, @RecruitmentID = i.RecruitmentID 
-    FROM inserted i;
-
-    IF @Status = 'Active'
-    BEGIN
-        IF EXISTS (
-            SELECT 1 
-            FROM Recruitments 
-            WHERE RecruitID = @RecruitID 
-            AND Status = 'Active' 
-            AND RecruitmentID != @RecruitmentID
-        )
-        BEGIN
-            RAISERROR ('A recruit cannot have multiple active recruitments.', 16, 1);
-            ROLLBACK;
-        END
-    END
-END;
-
 INSERT INTO Recruits (FirstName, LastName, Email, DateOfBirth, Gender, Address)
 VALUES 
-('John', 'Doe', 'john.doe@example.com', '1990-05-15', 'M', '123 Main St, Anytown, USA'),
-('Jane', 'Smith', 'jane.smith@example.com', '1992-07-22', 'F', '456 Elm St, Othertown, USA'),
-('Alice', 'Johnson', 'alice.johnson@example.com', '1988-03-05', 'F', '789 Oak St, Sometown, USA'),
-('Bob', 'Williams', 'bob.williams@example.com', '1991-11-19', 'M', '101 Pine St, Newtown, USA'),
-('Sarah', 'Brown', 'sarah.brown@example.com', '1993-09-10', 'F', '202 Maple St, Yourtown, USA');
+('John', 'Doe', 'john.doe@example.com', '1990-05-15', 'Male', '123 Main St, Anytown, USA'),
+('Jane', 'Smith', 'jane.smith@example.com', '1992-07-22', 'Female', '456 Elm St, Othertown, USA'),
+('Alice', 'Johnson', 'alice.johnson@example.com', '1988-03-05', 'Female', '789 Oak St, Sometown, USA'),
+('Bob', 'Williams', 'bob.williams@example.com', '1991-11-19', 'Male', '101 Pine St, Newtown, USA'),
+('Sarah', 'Brown', 'sarah.brown@example.com', '1993-09-10', 'Female', '202 Maple St, Yourtown, USA');
 
 INSERT INTO Recruitments (RecruitID, PositionName, ApplicationDate, Status, InterviewDate, Notes)
 VALUES 
@@ -169,27 +113,6 @@ CREATE TABLE EmployeeDevelopments (
 
 USE WeManageDB;
 
-CREATE TRIGGER trg_CheckDevelopmentOverlap
-ON EmployeeDevelopments
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    IF EXISTS (
-        SELECT 1
-        FROM EmployeeDevelopments ed
-        INNER JOIN inserted i ON ed.EmployeeID = i.EmployeeID
-        WHERE 
-            (ed.StartDate <= i.EndDate AND i.StartDate <= ed.EndDate)
-            AND ed.DevelopmentID != i.DevelopmentID
-    )
-    BEGIN
-        RAISERROR('An employee cannot be enrolled in overlapping development programs.', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-END;
-
 
 
 INSERT INTO EmployeeDevelopments (EmployeeID, DevelopmentType, Title, StartDate, EndDate, Provider, Status, Result, Notes) 
@@ -213,11 +136,9 @@ CREATE TABLE Profiles (
     ActivityDescription NVARCHAR(255),
     Impact NVARCHAR(100),
     VisibilityLevel NVARCHAR(50),
-    Assessment NVARCHAR(10) CHECK (Assessment IN ('Positive', 'Negative')),
+    Assessment NVARCHAR(10),
     Notes NVARCHAR(255)
 );
-
-USE WeManageDB;
 
 INSERT INTO Profiles (EmployeeID, ActivityDate, ActivityType, ActivityDescription, Impact, VisibilityLevel, Assessment, Notes)
 VALUES
@@ -241,6 +162,3 @@ VALUES
 (6, '2024-10-31', 'Social Media Engagement', 'Advocated for mental health awareness', 'Positive impact on community', 'International', 'Positive', 'Partnered with health organizations'),
 (7, '2024-11-20', 'Charity Event', 'Environmental cleanup activity', 'Improved local environment', 'Local', 'Positive', 'Company sponsored event'),
 (8, '2024-12-15', 'Public Speaking', 'Presentation at a tech meetup', 'Shared technical expertise', 'Local', 'Positive', 'Strengthened professional network');
-
-
-

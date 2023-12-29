@@ -17,6 +17,7 @@ using System.ComponentModel.DataAnnotations.Schema;
         [MaxLength(100)]
         public string? Role { get; set; }
 
+        [Required]
         public DateTime JoinDate { get; set; }
 
         public DateTime LeaveDate { get; set; }

@@ -9,9 +9,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
         [ForeignKey("Employee")]
         public int EmployeeID { get; set; }
-
+        [Required]
         public decimal MonthlySalary { get; set; }
-
+        [Required]
         public DateTime StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
