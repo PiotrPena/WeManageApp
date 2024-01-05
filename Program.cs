@@ -51,7 +51,7 @@ class Program
                     User loggedInUser = new User(employeeData, user, context);
 
                     // Create NotificationList object and print notifications
-                    NotificationList notifications = new NotificationList(context);
+                    NotificationList notifications = NotificationList.GetInstance(context);
                     notifications.PrintNotifications();
                     Console.Clear();
 

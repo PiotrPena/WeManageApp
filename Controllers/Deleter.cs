@@ -328,7 +328,8 @@ public class Deleter{
             int notificationId = Convert.ToInt32(Console.ReadLine());
 
             // Fetch the selected notification
-            var notification = Context.Notifications.FirstOrDefault(n => n.NotificationID == notificationId);
+            var notificationList = NotificationList.GetInstance(Context);
+            var notification = notificationList.GetNotification(notificationId);
             if (notification == null)
             {
                 Console.WriteLine("Notification not found.");

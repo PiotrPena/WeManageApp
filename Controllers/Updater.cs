@@ -105,7 +105,7 @@ public class Updater{
     }
 
 
-     public void UpdateEmployee()
+    public void UpdateEmployee()
     {
         try
         {
@@ -361,7 +361,8 @@ public class Updater{
             }
 
             // Find the notification to update
-            var existingNotification = Context.Notifications.FirstOrDefault(n => n.NotificationID == notificationId);
+            var notificationList = NotificationList.GetInstance(Context);
+            var existingNotification = notificationList.GetNotification(notificationId);
             if (existingNotification == null)
             {
                 Console.WriteLine("Notification not found.");

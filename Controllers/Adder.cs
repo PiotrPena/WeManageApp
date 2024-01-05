@@ -497,8 +497,16 @@ public class Adder{
 
             Console.Write("Notification Content: ");
             string notificationContent = Console.ReadLine() ?? throw new InvalidOperationException("Notification Content is required");
+            
+            DateTime timestamp;
+            Console.Write("Enter timestamp (yyyy-MM-dd HH:mm): ");
 
-            var timestamp = DateTime.Now;
+            // Try to parse the input with the specified format
+            bool validDate = DateTime.TryParse(Console.ReadLine(), out timestamp);
+            if (!validDate)
+            {
+                throw new ArgumentException("Invalid format. Please enter the timestamp in the format 'yyyy-MM-dd HH:mm'.");
+            }
 
             var notification = new Notification
             {
