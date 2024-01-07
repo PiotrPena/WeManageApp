@@ -57,7 +57,7 @@ class Program
 
                     // Display personalized welcome message
                     Console.WriteLine($"Welcome {loggedInUser.FirstName} {loggedInUser.LastName}! You are logged in as {loggedInUser.AccessLevel}.");
-                    Thread.Sleep(3000);
+                    Thread.Sleep(1000);
                     while(true){
                         loggedInUser.ChoosePanel();
                         Console.WriteLine($"Would you like to log out? Press (Esc) to log out.");

@@ -1141,6 +1141,13 @@ public class Adder{
                 throw new ArgumentException("Invalid Monthly Salary. It should be a decimal number.");
             }
 
+            Console.Write("Currency (e.g., USD, EUR): ");
+            string? currency = Console.ReadLine()?.Trim().ToUpper();
+            if (string.IsNullOrEmpty(currency) || currency.Length != 3)
+            {
+                throw new ArgumentException("Invalid currency. It should be a 3-letter currency code.");
+            }
+
             Console.Write("Start Date (yyyy-MM-dd): ");
             if (!DateTime.TryParse(Console.ReadLine(), out DateTime startDate))
             {
@@ -1163,6 +1170,7 @@ public class Adder{
             {
                 EmployeeID = employeeId,
                 MonthlySalary = monthlySalary,
+                Currency = currency,
                 StartDate = startDate,
                 EndDate = endDate
             };
@@ -1176,6 +1184,7 @@ public class Adder{
             return null;
         }
     }
+
 
     public void AddSalary()
     {

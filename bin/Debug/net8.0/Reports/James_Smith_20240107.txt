@@ -1,0 +1,8 @@
+Salary History for James Smith
+Total Earnings: 414000,00 USD
+Earnings in 2024: 6000,00 USD
+
+Detailed Salary History:
+From 01.01.2018 to 30.06.2019: 5 000,00 zł USD
+From 01.07.2019 to 30.06.2020: 5 500,00 zł USD
+From 01.07.2020 to Present: 6 000,00 zł USD

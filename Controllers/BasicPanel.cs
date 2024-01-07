@@ -300,39 +300,41 @@ public class BasicPanel : Panel
     }
 
     public void CheckHistory()
+{
+    int employeeId = User.EmployeeID;
+
+    var salaries = Context.Salaries.Where(s => s.EmployeeID == employeeId).OrderBy(s => s.StartDate);
+    var positions = Context.Positions.Where(p => p.EmployeeID == employeeId).OrderBy(p => p.StartDate);
+
+    var history = salaries
+        .AsEnumerable()
+        .SelectMany(salary => positions
+            .Where(position => position.StartDate <= (salary.EndDate ?? DateTime.MaxValue) && 
+                               (position.EndDate == null || position.EndDate >= salary.StartDate))
+            .Select(position => new
+            {
+                StartDate = new DateTime(Math.Max(salary.StartDate.Ticks, position.StartDate.Ticks)),
+                EndDate = salary.EndDate == null || position.EndDate == null ? 
+                          salary.EndDate ?? position.EndDate :
+                          new DateTime?(new DateTime(Math.Min((salary.EndDate ?? DateTime.MaxValue).Ticks, 
+                                                              (position.EndDate ?? DateTime.MaxValue).Ticks))),
+                Salary = salary.MonthlySalary,
+                Currency = salary.Currency,
+                Position = position.PositionName
+            }))
+        .OrderBy(h => h.StartDate)
+        .ToList();
+
+    Console.WriteLine($"History for employee ID {employeeId}:\n");
+    foreach (var item in history)
     {
-        int employeeId = User.EmployeeID;
-
-        var salaries = Context.Salaries.Where(s => s.EmployeeID == employeeId).OrderBy(s => s.StartDate);
-        var positions = Context.Positions.Where(p => p.EmployeeID == employeeId).OrderBy(p => p.StartDate);
-
-        var history = salaries
-            .AsEnumerable()
-            .SelectMany(salary => positions
-                .Where(position => position.StartDate <= (salary.EndDate ?? DateTime.MaxValue) && 
-                                   (position.EndDate == null || position.EndDate >= salary.StartDate))
-                .Select(position => new
-                {
-                    StartDate = new DateTime(Math.Max(salary.StartDate.Ticks, position.StartDate.Ticks)),
-                    EndDate = salary.EndDate == null || position.EndDate == null ? 
-                              salary.EndDate ?? position.EndDate :
-                              new DateTime?(new DateTime(Math.Min((salary.EndDate ?? DateTime.MaxValue).Ticks, 
-                                                                  (position.EndDate ?? DateTime.MaxValue).Ticks))),
-                    Salary = salary.MonthlySalary,
-                    Position = position.PositionName
-                }))
-            .OrderBy(h => h.StartDate)
-            .ToList();
-
-        Console.WriteLine($"History for employee ID {employeeId}:\n");
-        foreach (var item in history)
-        {
-            Console.WriteLine($"From {item.StartDate.ToShortDateString()} to {item.EndDate?.ToShortDateString() ?? "Present"}:");
-            Console.WriteLine($"  Position: {item.Position}");
-            Console.WriteLine($"  Salary: ${item.Salary}");
-            Console.WriteLine();
-        }
+        Console.WriteLine($"From {item.StartDate.ToShortDateString()} to {item.EndDate?.ToShortDateString() ?? "Present"}:");
+        Console.WriteLine($"  Position: {item.Position}");
+        Console.WriteLine($"  Salary: {item.Salary} {item.Currency}"); 
+        Console.WriteLine();
     }
+}
+
 
     public void CheckProjects()
     {

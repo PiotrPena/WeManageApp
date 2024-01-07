@@ -25,6 +25,7 @@ public class Reader{
             Console.WriteLine("10. Read Projects");
             Console.WriteLine("11. Read Recruitments");
             Console.WriteLine("12. Read Notifications");
+            Console.WriteLine("13. Generate Report");
             Console.WriteLine("0. Exit");
 
             int choice = Convert.ToInt32(Console.ReadLine());
@@ -66,6 +67,9 @@ public class Reader{
                     break;
                 case 12:
                     ReadNotifications();
+                    break;
+                case 13:
+                    GenerateReport();
                     break;
                 case 0:
                     continueUsingReader = false;
@@ -305,15 +309,16 @@ public class Reader{
                 .AsEnumerable()
                 .SelectMany(salary => positions
                     .Where(position => position.StartDate <= (salary.EndDate ?? DateTime.MaxValue) &&
-                                       (position.EndDate == null || position.EndDate >= salary.StartDate))
+                                    (position.EndDate == null || position.EndDate >= salary.StartDate))
                     .Select(position => new
                     {
                         StartDate = new DateTime(Math.Max(salary.StartDate.Ticks, position.StartDate.Ticks)),
                         EndDate = salary.EndDate == null || position.EndDate == null ? 
-                                  salary.EndDate ?? position.EndDate :
-                                  new DateTime?(new DateTime(Math.Min((salary.EndDate ?? DateTime.MaxValue).Ticks, 
-                                                                      (position.EndDate ?? DateTime.MaxValue).Ticks))),
+                                salary.EndDate ?? position.EndDate :
+                                new DateTime?(new DateTime(Math.Min((salary.EndDate ?? DateTime.MaxValue).Ticks, 
+                                                                    (position.EndDate ?? DateTime.MaxValue).Ticks))),
                         Salary = salary.MonthlySalary,
+                        Currency = salary.Currency,  // Assuming you have a Currency property in Salary class
                         Position = position.PositionName
                     }))
                 .OrderBy(h => h.StartDate)
@@ -324,12 +329,13 @@ public class Reader{
             {
                 Console.WriteLine($"From {item.StartDate.ToShortDateString()} to {item.EndDate?.ToShortDateString() ?? "Present"}:");
                 Console.WriteLine($"  Position: {item.Position}");
-                Console.WriteLine($"  Salary: ${item.Salary}");
+                Console.WriteLine($"  Salary: {item.Salary} {item.Currency}");  // Include currency here
                 Console.WriteLine();
             }
             Console.WriteLine(new string('-', 40)); // Separator line between employees
         }
     }
+
 
     public void ReadProjects()
     {
@@ -474,7 +480,7 @@ public class Reader{
                 {
                     Console.WriteLine($"Employee Name: {salary.Employee.FirstName} {salary.Employee.LastName}");
                 }
-                Console.WriteLine($"Monthly Salary: {salary.MonthlySalary:C}");
+                Console.WriteLine($"Monthly Salary: {salary.MonthlySalary} {salary.Currency}");
                 Console.WriteLine($"Start Date: {salary.StartDate.ToString("yyyy-MM-dd")}");
                 Console.WriteLine($"End Date: {(salary.EndDate.HasValue ? salary.EndDate.Value.ToString("yyyy-MM-dd") : "N/A")}");
                 Console.WriteLine(new string('-', 40)); // Separator line for each salary record
@@ -485,6 +491,7 @@ public class Reader{
             Console.WriteLine("No salary records found.");
         }
     }
+
 
     public void ReadProjectsSimple()
     {
@@ -560,5 +567,134 @@ public class Reader{
             Console.WriteLine("No recruits found.");
         }
     }
+
+    public void GenerateReport()
+    {
+        // Step 1: Display Employees
+        ReadEmployees();
+
+        // Step 2: Get Employee ID
+        Console.Write("Enter Employee ID: ");
+        int employeeId;
+        while (!int.TryParse(Console.ReadLine(), out employeeId))
+        {
+            Console.Write("Invalid input. Please enter a valid Employee ID: ");
+        }
+
+        var employee = Context.Employees.FirstOrDefault(e => e.EmployeeID == employeeId);
+        if (employee == null)
+        {
+            Console.WriteLine("Employee not found.");
+            return;
+        }
+
+        // Step 3: Retrieve Salary History
+        var salaries = Context.Salaries.Where(s => s.EmployeeID == employeeId).ToList();
+        var employeeID = salaries[0].EmployeeID;
+
+        // Steps 4 and 5: Calculate Earnings and Convert Currency if Necessary
+        var currentYear = DateTime.Now.Year;
+        Money totalEarnings = CalculateEarnedAmount(false, employeeID);
+        Money totalEarningsUSD = totalEarnings.ConvertTo("USD");
+        Money yearEarnings = CalculateEarnedAmount(true, employeeID);
+        Money yearEarningsUSD = yearEarnings.ConvertTo("USD");
+
+        /*foreach (var salary in salaries)
+        {
+            Money earnedAmount = CalculateEarnedAmount(salary);
+            totalEarnings += earnedAmount;
+
+            if (salary.Currency != "USD")
+            {
+                var money = new Money(earnedAmount.Value, salary.Currency ?? "USD");
+                var convertedAmount = money.ConvertTo("USD");
+                totalEarningsUSD += convertedAmount;
+
+                if (salary.StartDate.Year <= currentYear && (salary.EndDate == null || salary.EndDate.Value.Year >= currentYear))
+                {
+                    yearEarningsUSD += CalculateEarnedAmount(salary, currentYear, "USD");
+                }
+            }
+
+            if (salary.StartDate.Year <= currentYear && (salary.EndDate == null || salary.EndDate.Value.Year >= currentYear))
+            {
+                yearEarnings += CalculateEarnedAmount(salary, currentYear);
+            }
+        }*/
+
+        // Step 6: Generate Report File
+        string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        DirectoryInfo directoryInfo = new DirectoryInfo(baseDirectory);
+        string projectDirectory = directoryInfo?.Parent?.Parent?.Parent?.FullName ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports");;
+
+        string reportsFolder = Path.Combine(projectDirectory, "Reports");
+        if (!Directory.Exists(reportsFolder))
+        {
+            Directory.CreateDirectory(reportsFolder);
+        }
+
+        string fileName = $"{employee.FirstName}_{employee.LastName}_{DateTime.Now:yyyyMMdd}.txt";
+        string filePath = Path.Combine(reportsFolder, fileName);
+
+        using (StreamWriter file = new StreamWriter(filePath))
+        {
+            file.WriteLine($"Salary History for {employee.FirstName} {employee.LastName}");
+            file.WriteLine($"Total Earnings: {totalEarnings}");
+            file.WriteLine($"Earnings in {currentYear}: {yearEarnings}");
+
+            if (totalEarningsUSD.Value > 0)
+            {
+                file.WriteLine($"Total Earnings in USD: {totalEarningsUSD}");
+                file.WriteLine($"Earnings in {currentYear} in USD: {yearEarningsUSD}");
+            }
+
+            file.WriteLine("\nDetailed Salary History:");
+            foreach (var salary in salaries)
+            {
+                file.WriteLine($"From {salary.StartDate.ToShortDateString()} to {salary.EndDate?.ToShortDateString() ?? "Present"}: {salary.MonthlySalary} {salary.Currency}");
+            }
+        }
+
+        Console.WriteLine($"Report generated: {filePath}");
+
+    }
+
+    private Money CalculateEarnedAmount(bool currentYear, int employeeId)
+    {
+        // Fetch salary history for the employee
+        var salaries = Context.Salaries.Where(s => s.EmployeeID == employeeId).ToList();
+
+        var currentYearValue = DateTime.Now.Year;
+        var totalEarnings = new Money(0, salaries[0].Currency ?? "USD"); // Assuming default currency is USD
+
+        foreach (var salary in salaries)
+        {
+            // Determine the relevant time period for the calculation
+            var startDate = salary.StartDate;
+            var endDate = salary.EndDate ?? DateTime.Now;
+
+            if (currentYear)
+            {
+                if (startDate.Year > currentYearValue || (endDate.Year < currentYearValue))
+                {
+                    // Skip salaries not relevant to the current year
+                    continue;
+                }
+
+                // Adjust dates to current year boundaries
+                startDate = startDate.Year < currentYearValue ? new DateTime(currentYearValue, 1, 1) : startDate;
+                endDate = endDate.Year > currentYearValue ? new DateTime(currentYearValue, 12, 31) : endDate;
+            }
+
+            // Calculate months
+            int months = ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month + 1;
+
+            // Calculate earnings and add to total
+            var earnings = new Money(salary.MonthlySalary * months, salary.Currency ?? "USD");
+            totalEarnings += earnings;
+        }
+
+        return totalEarnings;
+    }  
 
 }
