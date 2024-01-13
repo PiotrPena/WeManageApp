@@ -1,0 +1,10 @@
+@startuml
+class Position {
+    + PositionID : int <<get>> <<set>>
+    + EmployeeID : int <<get>> <<set>>
+    + StartDate : DateTime <<get>> <<set>>
+    + EndDate : DateTime? <<get>> <<set>>
+    + PositionName : string? <<get>> <<set>>
+    + <<virtual>> Employee : Employee? <<get>> <<set>>
+}
+@enduml

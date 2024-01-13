@@ -1,0 +1,12 @@
+@startuml
+class NotificationList {
+    - {static} _instance : NotificationList?
+    - <<readonly>> _context : WeManageContext
+    - _notificationsMap : Dictionary<int, Notification>
+    - NotificationList(context:WeManageContext)
+    + {static} GetInstance(context:WeManageContext) : NotificationList
+    - LoadNotifications() : void
+    + GetNotification(notificationId:int) : Notification?
+    + PrintNotifications() : void
+}
+@enduml

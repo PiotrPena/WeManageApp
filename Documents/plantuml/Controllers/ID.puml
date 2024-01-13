@@ -1,0 +1,6 @@
+@startuml
+class IdentityField {
+    + ID : long = 0
+    + IdentityField(id:long)
+}
+@enduml

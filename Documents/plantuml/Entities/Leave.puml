@@ -1,0 +1,10 @@
+@startuml
+class Leave {
+    + LeaveID : int <<get>> <<set>>
+    + EmployeeID : int <<get>> <<set>>
+    + StartDate : DateTime <<get>> <<set>>
+    + EndDate : DateTime? <<get>> <<set>>
+    + TypeOfLeave : string? <<get>> <<set>>
+    + <<virtual>> Employee : Employee? <<get>> <<set>>
+}
+@enduml

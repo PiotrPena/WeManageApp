@@ -1,0 +1,12 @@
+@startuml
+class Recruitment {
+    + RecruitmentID : int <<get>> <<set>>
+    + RecruitID : int <<get>> <<set>>
+    + PositionName : string? <<get>> <<set>>
+    + ApplicationDate : DateTime <<get>> <<set>>
+    + Status : string? <<get>> <<set>>
+    + InterviewDate : DateTime <<get>> <<set>>
+    + Notes : string? <<get>> <<set>>
+    + <<virtual>> Recruit : Recruit? <<get>> <<set>>
+}
+@enduml

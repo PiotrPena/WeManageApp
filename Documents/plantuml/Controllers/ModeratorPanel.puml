@@ -1,0 +1,7 @@
+@startuml
+class ModeratorPanel {
+    + ModeratorPanel(user:User, context:WeManageContext)
+    + <<override>> Process() : void
+}
+Panel <|-- ModeratorPanel
+@enduml

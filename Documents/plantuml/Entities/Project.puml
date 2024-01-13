@@ -1,0 +1,14 @@
+@startuml
+class Project {
+    + ProjectID : int <<get>> <<set>>
+    + ProjectName : string? <<get>> <<set>>
+    + ProjectDescription : string? <<get>> <<set>>
+    + StartDate : DateTime <<get>> <<set>>
+    + EndDate : DateTime? <<get>> <<set>>
+    + Budget : decimal? <<get>> <<set>>
+    + Status : string? <<get>> <<set>>
+    + ManagerEmployeeID : int? <<get>> <<set>>
+    + <<virtual>> ProjectDetails : ICollection<ProjectDetail> <<get>> <<set>>
+    + Project()
+}
+@enduml

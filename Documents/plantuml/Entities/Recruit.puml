@@ -1,0 +1,13 @@
+@startuml
+class Recruit {
+    + RecruitID : int <<get>> <<set>>
+    + FirstName : string? <<get>> <<set>>
+    + LastName : string? <<get>> <<set>>
+    + DateOfBirth : DateTime <<get>> <<set>>
+    + Email : string? <<get>> <<set>>
+    + Gender : string? <<get>> <<set>>
+    + Address : string? <<get>> <<set>>
+    + <<virtual>> Recruitments : ICollection<Recruitment> <<get>> <<set>>
+    + Recruit()
+}
+@enduml

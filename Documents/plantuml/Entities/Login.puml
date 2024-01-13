@@ -1,0 +1,8 @@
+@startuml
+class Login {
+    + EmployeeID : int <<get>> <<set>>
+    + Username : string? <<get>> <<set>>
+    + Password : string? <<get>> <<set>>
+    + AccessLevel : string? <<get>> <<set>>
+}
+@enduml

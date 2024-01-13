@@ -1,0 +1,13 @@
+@startuml
+class Schedule {
+    + EventID : int <<get>> <<set>>
+    + EventName : string? <<get>> <<set>>
+    + StartDate : DateTime <<get>> <<set>>
+    + EndDate : DateTime <<get>> <<set>>
+    + RoomID : string? <<get>> <<set>>
+    + Description : string? <<get>> <<set>>
+    + HostEmployeeID : int? <<get>> <<set>>
+    + EventType : string? <<get>> <<set>>
+    + IsMandatory : Boolean? <<get>> <<set>>
+}
+@enduml

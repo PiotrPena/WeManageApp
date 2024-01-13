@@ -1,0 +1,8 @@
+@startuml
+abstract class Panel {
+    # User : User
+    # Context : WeManageContext
+    # Panel(user:User, context:WeManageContext)
+    + <<virtual>> Process() : void
+}
+@enduml

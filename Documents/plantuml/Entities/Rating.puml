@@ -1,0 +1,9 @@
+@startuml
+class Rating {
+    + RatingID : int <<get>> <<set>>
+    + EmployeeID : int <<get>> <<set>>
+    + Date : DateTime <<get>> <<set>>
+    + PerformanceRating : int? <<get>> <<set>>
+    + <<virtual>> Employee : Employee? <<get>> <<set>>
+}
+@enduml

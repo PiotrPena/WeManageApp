@@ -1,0 +1,35 @@
+@startuml
+!include .\\Program.puml
+!include .\\Controllers\Adder.puml
+!include .\\Controllers\AdministratorPanel.puml
+!include .\\Controllers\BasicPanel.puml
+!include .\\Controllers\Deleter.puml
+!include .\\Controllers\ID.puml
+!include .\\Controllers\ModeratorPanel.puml
+!include .\\Controllers\NotificationList.puml
+!include .\\Controllers\Panel.puml
+!include .\\Controllers\Reader.puml
+!include .\\Controllers\Updater.puml
+!include .\\Controllers\User.puml
+!include .\\Entities\Employee.puml
+!include .\\Entities\EmployeeDevelopment.puml
+!include .\\Entities\EmployeeSchedule.puml
+!include .\\Entities\Incident.puml
+!include .\\Entities\Leave.puml
+!include .\\Entities\Login.puml
+!include .\\Entities\Money.puml
+!include .\\Entities\Notification.puml
+!include .\\Entities\Position.puml
+!include .\\Entities\Profile.puml
+!include .\\Entities\Project.puml
+!include .\\Entities\ProjectDetail.puml
+!include .\\Entities\Rating.puml
+!include .\\Entities\Recruit.puml
+!include .\\Entities\Recruitment.puml
+!include .\\Entities\Salary.puml
+!include .\\Entities\Schedule.puml
+!include .\\Entities\WeManageContext.puml
+!include .\\obj\Debug\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.puml
+!include .\\obj\Debug\net8.0\WeManageApp.AssemblyInfo.puml
+!include .\\obj\Debug\net8.0\WeManageApp.GlobalUsings.g.puml
+@enduml

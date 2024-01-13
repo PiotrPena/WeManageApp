@@ -1,0 +1,10 @@
+@startuml
+class EmployeeSchedule {
+    + EmployeeScheduleID : int <<get>> <<set>>
+    + EmployeeID : int <<get>> <<set>>
+    + Date : DateTime <<get>> <<set>>
+    + StartHour : TimeSpan <<get>> <<set>>
+    + EndHour : TimeSpan <<get>> <<set>>
+    + <<virtual>> Employee : Employee? <<get>> <<set>>
+}
+@enduml

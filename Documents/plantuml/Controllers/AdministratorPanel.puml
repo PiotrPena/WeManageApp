@@ -1,0 +1,12 @@
+@startuml
+class AdministratorPanel {
+    + AdministratorPanel(user:User, context:WeManageContext)
+    + <<override>> Process() : void
+    + ReadLogins() : void
+    + CreateLogin() : Login?
+    + AddLogin() : void
+    + DeleteLogin() : void
+    + UpdateLogin() : void
+}
+Panel <|-- AdministratorPanel
+@enduml

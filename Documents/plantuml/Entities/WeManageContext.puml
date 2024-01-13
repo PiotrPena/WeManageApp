@@ -1,0 +1,25 @@
+@startuml
+class WeManageContext {
+    + Employees : DbSet<Employee> <<get>> <<set>>
+    + EmployeeDevelopments : DbSet<EmployeeDevelopment> <<get>> <<set>>
+    + EmployeeSchedules : DbSet<EmployeeSchedule> <<get>> <<set>>
+    + Incidents : DbSet<Incident> <<get>> <<set>>
+    + Leaves : DbSet<Leave> <<get>> <<set>>
+    + Logins : DbSet<Login> <<get>> <<set>>
+    + Notifications : DbSet<Notification> <<get>> <<set>>
+    + Positions : DbSet<Position> <<get>> <<set>>
+    + Profiles : DbSet<Profile> <<get>> <<set>>
+    + ProjectDetails : DbSet<ProjectDetail> <<get>> <<set>>
+    + Projects : DbSet<Project> <<get>> <<set>>
+    + Ratings : DbSet<Rating> <<get>> <<set>>
+    + Recruitments : DbSet<Recruitment> <<get>> <<set>>
+    + Recruits : DbSet<Recruit> <<get>> <<set>>
+    + Salaries : DbSet<Salary> <<get>> <<set>>
+    + Schedules : DbSet<Schedule> <<get>> <<set>>
+    + WeManageContext()
+    + WeManageContext(options:DbContextOptions<WeManageContext>)
+    # <<override>> OnConfiguring(optionsBuilder:DbContextOptionsBuilder) : void
+    # <<override>> OnModelCreating(modelBuilder:ModelBuilder) : void
+}
+DbContext <|-- WeManageContext
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+class Profile {
+    + ProfileID : int <<get>> <<set>>
+    + EmployeeID : int <<get>> <<set>>
+    + ActivityDate : DateTime <<get>> <<set>>
+    + ActivityType : string? <<get>> <<set>>
+    + ActivityDescription : string? <<get>> <<set>>
+    + Impact : string? <<get>> <<set>>
+    + VisibilityLevel : string? <<get>> <<set>>
+    + Assessment : string? <<get>> <<set>>
+    + Notes : string? <<get>> <<set>>
+    + <<virtual>> Employee : Employee? <<get>> <<set>>
+}
+@enduml

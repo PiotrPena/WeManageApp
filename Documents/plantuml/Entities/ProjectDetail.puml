@@ -1,0 +1,13 @@
+@startuml
+class ProjectDetail {
+    + ProjectDetailID : int <<get>> <<set>>
+    + EmployeeID : int <<get>> <<set>>
+    + ProjectID : int <<get>> <<set>>
+    + Role : string? <<get>> <<set>>
+    + JoinDate : DateTime <<get>> <<set>>
+    + LeaveDate : DateTime <<get>> <<set>>
+    + AdditionalInfo : string? <<get>> <<set>>
+    + <<virtual>> Employee : Employee? <<get>> <<set>>
+    + <<virtual>> Project : Project? <<get>> <<set>>
+}
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+class BasicPanel {
+    + BasicPanel(user:User, context:WeManageContext)
+    + <<override>> Process() : void
+    + CheckEmployee() : void
+    + CheckEmployeeDevelopment() : void
+    + CheckEmployeeSchedule() : void
+    + CheckIncidents() : void
+    + CheckLeaves() : void
+    + CheckProfiles() : void
+    + CheckRatings() : void
+    + CheckSchedule() : void
+    + CheckHistory() : void
+    + CheckProjects() : void
+}
+Panel <|-- BasicPanel
+@enduml

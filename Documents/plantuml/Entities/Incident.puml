@@ -1,0 +1,16 @@
+@startuml
+class Incident {
+    + IncidentID : int <<get>> <<set>>
+    + EmployeeID : int <<get>> <<set>>
+    + IncidentDate : DateTime <<get>> <<set>>
+    + IncidentType : string? <<get>> <<set>>
+    + Description : string? <<get>> <<set>>
+    + SeverityLevel : string? <<get>> <<set>>
+    + ReportedDate : DateTime <<get>> <<set>>
+    + ActionTaken : string? <<get>> <<set>>
+    + Status : string? <<get>> <<set>>
+    + ResolutionDate : DateTime? <<get>> <<set>>
+    + Notes : string? <<get>> <<set>>
+    + <<virtual>> Employee : Employee? <<get>> <<set>>
+}
+@enduml

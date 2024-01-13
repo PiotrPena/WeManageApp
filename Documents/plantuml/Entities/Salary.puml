@@ -1,0 +1,11 @@
+@startuml
+class Salary {
+    + SalaryID : int <<get>> <<set>>
+    + EmployeeID : int <<get>> <<set>>
+    + MonthlySalary : decimal <<get>> <<set>>
+    + Currency : string? <<get>> <<set>>
+    + StartDate : DateTime <<get>> <<set>>
+    + EndDate : DateTime? <<get>> <<set>>
+    + <<virtual>> Employee : Employee? <<get>> <<set>>
+}
+@enduml

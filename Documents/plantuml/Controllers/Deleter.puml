@@ -1,0 +1,23 @@
+@startuml
+class Deleter {
+    - Context : WeManageContext
+    - Reader : Reader
+    + Deleter(context:WeManageContext)
+    + Process() : void
+    + DeleteEmployee() : void
+    + DeleteEmployeeDevelopment() : void
+    + DeleteEmployeeSchedule() : void
+    + DeleteIncident() : void
+    + DeleteLeave() : void
+    + DeleteNotification() : void
+    + DeletePosition() : void
+    + DeleteProfile() : void
+    + DeleteProject() : void
+    + DeleteProjectDetail() : void
+    + DeleteRating() : void
+    + DeleteRecruit() : void
+    + DeleteRecruitment() : void
+    + DeleteSalary() : void
+    + DeleteSchedule() : void
+}
+@enduml

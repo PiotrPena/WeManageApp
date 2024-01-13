@@ -1,0 +1,15 @@
+@startuml
+class EmployeeDevelopment {
+    + DevelopmentID : int <<get>> <<set>>
+    + EmployeeID : int <<get>> <<set>>
+    + DevelopmentType : string? <<get>> <<set>>
+    + Title : string? <<get>> <<set>>
+    + StartDate : DateTime <<get>> <<set>>
+    + EndDate : DateTime? <<get>> <<set>>
+    + Provider : string? <<get>> <<set>>
+    + Status : string? <<get>> <<set>>
+    + Result : string? <<get>> <<set>>
+    + Notes : string? <<get>> <<set>>
+    + <<virtual>> Employee : Employee? <<get>> <<set>>
+}
+@enduml

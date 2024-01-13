@@ -1,0 +1,24 @@
+@startuml
+class Updater {
+    - Context : WeManageContext
+    - Reader : Reader
+    - Adder : Adder
+    + Updater(context:WeManageContext)
+    + Process() : void
+    + UpdateEmployee() : void
+    + UpdateEmployeeDevelopment() : void
+    + UpdateEmployeeSchedule() : void
+    + UpdateIncident() : void
+    + UpdateLeave() : void
+    + UpdateNotification() : void
+    + UpdatePosition() : void
+    + UpdateProfile() : void
+    + UpdateProject() : void
+    + UpdateProjectDetail() : void
+    + UpdateRating() : void
+    + UpdateRecruit() : void
+    + UpdateRecruitment() : void
+    + UpdateSalary() : void
+    + UpdateSchedule() : void
+}
+@enduml

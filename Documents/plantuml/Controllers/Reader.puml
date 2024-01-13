@@ -1,0 +1,26 @@
+@startuml
+class Reader {
+    - Context : WeManageContext
+    + Reader(context:WeManageContext)
+    + Process() : void
+    + ReadEmployees() : void
+    + ReadEmployeeDevelopments() : void
+    + ReadEmployeeSchedules() : void
+    + ReadIncidents() : void
+    + ReadLeaves() : void
+    + ReadProfiles() : void
+    + ReadRatings() : void
+    + ReadSchedules() : void
+    + ReadHistory() : void
+    + ReadProjects() : void
+    + ReadRecruitments() : void
+    + ReadNotifications() : void
+    + ReadPositions() : void
+    + ReadSalaries() : void
+    + ReadProjectsSimple() : void
+    + ReadProjectDetails() : void
+    + ReadRecruits() : void
+    + GenerateReport() : void
+    - CalculateEarnedAmount(currentYear:bool, employeeId:int) : Money
+}
+@enduml

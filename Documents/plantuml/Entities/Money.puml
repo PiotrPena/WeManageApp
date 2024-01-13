@@ -1,0 +1,13 @@
+@startuml
+class Money {
+    + Value : decimal <<get>>
+    + Currency : string <<get>>
+    - {static} conversionRates : Dictionary<string, decimal>
+    + Money(value:decimal, currency:string)
+    + ConvertTo(targetCurrency:string) : Money
+    + {static} UpdateConversionRate(currency:string, rate:decimal) : void
+    + <<override>> ToString() : string
+    + <<override>> Equals(obj:object?) : bool
+    + <<override>> GetHashCode() : int
+}
+@enduml

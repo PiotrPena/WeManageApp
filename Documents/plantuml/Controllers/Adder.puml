@@ -1,0 +1,37 @@
+@startuml
+class Adder {
+    - Context : WeManageContext
+    + Adder(context:WeManageContext)
+    + Process() : void
+    + CreateEmployee() : Employee?
+    + AddEmployee() : void
+    + CreateEmployeeDevelopment() : EmployeeDevelopment?
+    + AddEmployeeDevelopment() : void
+    + CreateEmployeeSchedule() : EmployeeSchedule?
+    + AddEmployeeSchedule() : void
+    + CreateIncident() : Incident?
+    + AddIncident() : void
+    + CreateLeave() : Leave?
+    + AddLeave() : void
+    + CreateNotification() : Notification?
+    + AddNotification() : void
+    + CreatePosition() : Position?
+    + AddPosition() : void
+    + CreateProfile() : Profile?
+    + AddProfile() : void
+    + CreateProject() : Project?
+    + AddProject() : void
+    + CreateProjectDetail() : ProjectDetail?
+    + AddProjectDetail() : void
+    + CreateRating() : Rating?
+    + AddRating() : void
+    + CreateRecruit() : Recruit?
+    + AddRecruit() : void
+    + CreateRecruitment() : Recruitment?
+    + AddRecruitment() : void
+    + CreateSalary() : Salary?
+    + AddSalary() : void
+    + CreateSchedule() : Schedule?
+    + AddSchedule() : void
+}
+@enduml

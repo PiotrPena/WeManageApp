@@ -1,0 +1,8 @@
+@startuml
+class Notification {
+    + NotificationID : int <<get>> <<set>>
+    + SenderEmployeeID : int <<get>> <<set>>
+    + NotificationContent : string? <<get>> <<set>>
+    + Timestamp : DateTime <<get>> <<set>>
+}
+@enduml

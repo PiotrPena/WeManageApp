@@ -1,0 +1,16 @@
+@startuml
+class User {
+    + EmployeeID : int <<get>> <<set>>
+    + FirstName : string? <<get>> <<set>>
+    + LastName : string? <<get>> <<set>>
+    + Email : string? <<get>> <<set>>
+    + DateOfBirth : DateTime <<get>> <<set>>
+    + Gender : string? <<get>> <<set>>
+    + Address : string? <<get>> <<set>>
+    + Username : string? <<get>> <<set>>
+    + AccessLevel : string? <<get>> <<set>>
+    + Context : WeManageContext <<get>> <<set>>
+    + User(employee:Employee, login:Login, context:WeManageContext)
+    + ChoosePanel() : void
+}
+@enduml
